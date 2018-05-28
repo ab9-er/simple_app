@@ -1,4 +1,5 @@
 FROM nouchka/sqlite3:latest
+MAINTAINER 13626352+ab9-er@users.noreply.github.com
 
 ENV APP_DIR /app
 

@@ -2,7 +2,7 @@
 
 To start,
 
-    git clone git@github.com:ab9-er/sample-app.git
+    git clone git@github.com:ab9-er/simple_app.git
     make up
 
 Go to `http://localhost:5000` to access the application.
