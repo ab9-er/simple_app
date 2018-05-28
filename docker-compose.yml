@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  simple_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ab9er/simple_app:${TAG:-latest}
+    container_name: simple_app
+    env_file:
+        - ./app/conf/config.env
+    ports:
+      - 5000:5000
+    expose:
+      - 3306
+      - 33060
+    volumes:
+      - ./app:/app
+    privileged: true
