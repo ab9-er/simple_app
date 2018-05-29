@@ -7,7 +7,7 @@ clean:
 	find . -name '*.db' -exec rm -rf {} +
 
 build:
-	docker-compose build
+	docker-compose -f docker-compose.build.yml build
 
 publish:
 	docker-compose push simple_app
@@ -15,6 +15,9 @@ publish:
 install:
 	pipenv install
 	pipenv run python app/main.py
+
+dev:
+	docker-compose -f docker-compose.dev.yml up
 
 up:
 	docker-compose up
