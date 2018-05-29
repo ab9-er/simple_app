@@ -7,26 +7,28 @@ app = Flask(__name__)
 app.secret_key = b'_2#p2O"AB9ba\p\sec]/'
 
 
-def init_db():
-    with app.app_context():
-        db = get_db()
-        with app.open_resource('{}/db/user.sql'.format(os.getenv("APP_DIR")), mode='r') as f:
-            db.cursor().executescript(f.read())
-        db.commit()
-
-@app.cli.command('initdb')
-def initdb_command():
-    """Initializes the database."""
-
-    init_db()
-    print('Initialized the database.')
-
-
 def get_db():
     db = getattr(g, 'sqlite_db', None)
     if db is None:
         db = g.sqlite_db = sqlite3.connect("{}/db/{}.db".format(os.getenv("APP_DIR"), os.getenv("DB_NAME")))
     return db
+
+
+def init_db():
+    with app.app_context():
+        db = get_db()
+        user_table = db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='user';").fetchone()
+        if not user_table:
+            with app.open_resource('{}/db/user.sql'.format(os.getenv("APP_DIR")), mode='r') as f:
+                db.cursor().executescript(f.read())
+            db.commit()
+
+
+@app.cli.command('initdb')
+def initdb_command():
+    """Initializes the database."""
+    init_db()
+    print('Initialized the database.')
 
 
 def insert_user(user_object):
